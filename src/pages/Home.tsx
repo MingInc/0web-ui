@@ -65,7 +65,7 @@ export function Home() {
             ))}
           </dl>
 
-          <p className="mt-8 text-gray-500">
+          <p className="mt-8 text-gray-700">
             Ready to get started? 😎 <Link className="underline text-[#2ecc71]" to="/login">if the answer is yes!</Link>
           </p>
         </div>
