@@ -1,5 +1,4 @@
 # 0web-ui
----
 This repo provides a setup to get 0web-ui working with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
