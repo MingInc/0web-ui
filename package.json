@@ -1,8 +1,15 @@
 {
-  "name": "frontend",
-  "private": true,
+  "name": "0web-ui",
   "version": "0.0.0",
   "type": "module",
+  "description": "This repo provides a setup to get 0web-ui working with HMR and some ESLint rules.",
+  "main": "src/main.tsx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MingInc/0web-ui"
+  },
+  "author": "Ming Open Web Headquarters",
+  "homepage": "https://0web.minginc.xyz",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
