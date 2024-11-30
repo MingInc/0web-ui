@@ -1,6 +1,6 @@
-# React + TypeScript + Vite
+0web-ui
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repo provides a setup to get 0web-ui working with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
 
