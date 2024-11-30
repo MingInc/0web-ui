@@ -78,14 +78,14 @@ export default function DeployedProjects() {
 
   return (
     <div className="container mx-auto px-1">
-      <h1 className="text-md font-medium mb-6">Projects</h1>
+      <h1 className="text-md font-medium mb-4">Projects</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="border-2 flex flex-col">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+        <div className="border-2 flex flex-col p-1 px-4">
+          <div className="flex flex-row items-center justify-between space-y-0">
             <h2 className="text-lg font-semibold">0web</h2>
             <Badge variant={"default"}>Complete</Badge>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="mt-2">
             <div className="text-sm text-muted-foreground mb-1">
               Framework: Vite.js
             </div>
@@ -93,35 +93,11 @@ export default function DeployedProjects() {
               <GitBranchIcon className="mr-2 h-4 w-4" />
               <span className="truncate">MingHQ/0web-ui</span>
             </div>
-            <div className="flex items-center text-sm text-muted-foreground mt-1">
+            <div className="flex items-center text-sm text-muted-foreground mt-1 mb-2">
               <GitCommitIcon className="mr-2 h-4 w-4" />
               <span>https://0web.minginc.xyz</span>
             </div>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <div className="text-sm text-muted-foreground">
-              Build time: 60 seconds
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                onClick={() =>
-                  window.open(
-                    "https://0web.minginc.xyz",
-                    "_blank",
-                    "rel=noopener noreferrer"
-                  )
-                }
-                size="sm"
-                variant="outline"
-              >
-                <ExternalLinkIcon className="h-4 w-4 mr-2" />
-                Visit
-              </Button>
-              <Button size="sm" variant="ghost">
-                <MoreVerticalIcon className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardFooter>
+          </div>
         </div>
         {/* {projectState.projects.map((project, index) => (
           <Card key={index} className="flex flex-col">
