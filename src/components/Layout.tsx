@@ -6,7 +6,6 @@ const Layout: React.FC = () => {
   return (
     <div className="layout-container grid grid-rows-[auto_1fr_auto] min-h-screen">
       <header className="border-b-1 border-black">
-        {/* this is topbar */}
         <div className="bg-black text-white text-sm py-1 font-medium px-[3vw]">
           <i className="ri-notification-2-line"></i> We received a Seed Grant
           from{" "}
@@ -41,8 +40,8 @@ const Layout: React.FC = () => {
               <i className="ri-twitter-x-line"></i>
             </a>
           </div>
-          <p className="text-center mt-3 font-medium text-gray-500 text-sm">
-            Ming Open Web Headquarters
+          <p className="text-center mt-2 font-sm text-gray-600 text-sm">
+            With ❤️ Ming HQ
             <br /> Ontario, Canada
           </p>
         </div>

@@ -1,35 +1,37 @@
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 const features = [
   {
-    name: "☁️ Secure Cloud Environment",
-    description:
-      "Leverage droplets, Docker containers, or other secure mechanisms for a robust and isolated cloud ecosystem.",
+    name: "☁️ Self-Host your dApps",
+    description: "Option to self-host dApp frontend, leave dns hassle to us.",
   },
   {
-    name: "🌐 Immutable Data & Availability",
+    name: "💰 DePin incentives",
     description:
-      "All data is securely stored on the blockchain, ensuring openness, immutability, and continuous availability.",
+      "We incentivized providers for sharing their computer over internet.",
   },
   {
     name: "🤝 Open Community x DAO",
     description:
-      "An open-source community governed by a DAO, driving innovation and collaboration through decentralized systems.",
+      "We provide open community where your ideas matter. We will have DAO soon.",
   },
   {
-    name: "♻️ Carbon Reduction Program",
+    name: "⚡ Low latency",
     description:
-      "We reduce e-waste by utilizing idle computers, turning them into efficient cloud nodes to help combat electronic waste.",
+      "We have providers from multi regions which helps us serve your dApp fast.",
   },
 ];
 
 export function Home() {
-  // useEffect(() => {
-  //   const _user = JSON.parse(
-  //     localStorage.getItem("ming_authenticated_user") || "{}"
-  //   );
-  //   if (_user.email) return navigate("/dashboard");
-  // }, []);
+  const navigate = useNavigate();
 
-
+  useEffect(() => {
+    const _user = JSON.parse(
+      localStorage.getItem("ming_authenticated_user") || "{}"
+    );
+    if (_user.email) return navigate("/dashboard");
+  }, []);
 
   return (
     <div className="bg-white">
@@ -44,23 +46,28 @@ export function Home() {
               src="https://ik.imagekit.io/lexy/Ming/Screenshot%202024-08-22%20174630.png?updatedAt=1724363207670"
             />
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              🌁 Making web more Accessible.
+              🌁 Making web more Open.
             </h2>
           </div>
           <p className="mt-4 text-gray-500">
-            Empowering self-hosting to more open web and contribution to decentralized web (Web3) utilizing what we consider web2.0.
+            Empowering self-hosting and contribution to decentralized web
+            utilizing what we consider web2.0
           </p>
 
           <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-7 lg:gap-x-8">
             {features.map((feature) => (
               <div key={feature.name} className="border-t border-gray-200 pt-2">
                 <dt className="font-semibold text-gray-900">{feature.name}</dt>
-                <dd className="mt-1 text-sm text-gray-500">
+                <dd className="mt-1 text-sm text-gray-500 ml-6">
                   {feature.description}
                 </dd>
               </div>
             ))}
           </dl>
+
+          <p className="mt-8 text-gray-500">
+            Ready to get started? 😎 <Link className="underline text-[#2ecc71]" to="/login">if the answer is yes!</Link>
+          </p>
         </div>
         <div className="flex-1">
           <img
