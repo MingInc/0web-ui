@@ -15,7 +15,7 @@ import {
   ExternalLinkIcon,
   RocketIcon,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function DeployedProjects() {
@@ -80,7 +80,7 @@ export default function DeployedProjects() {
     <div className="container mx-auto px-1">
       <h1 className="text-md font-medium mb-2">Projects</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="border-2 flex flex-col p-1 px-4 cursor-pointer transition-all ease-in-out hover:border-[#bdc3c7]">
+        <div className="border-[1.5px] flex flex-col p-1 px-4 cursor-pointer transition-all ease-in-out hover:border-[#818181]">
           <div className="flex flex-row items-center justify-between space-y-0">
             <h2 className="text-sm mt-1">Sample Project</h2>
           </div>
@@ -90,15 +90,15 @@ export default function DeployedProjects() {
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
               <GitBranchIcon className="mr-2 h-4 w-4" />
-              <span className="truncate">MingHQ/sampleDapp</span>
+              <Link to="https://github.com/MingInc/0web-sampleDApp" target="_blank" className="truncate hover:text-black">MingInc/0web-sampleDApp</Link>
             </div>
             <div className="flex items-center text-sm text-muted-foreground mt-1 mb-2">
               <GitCommitIcon className="mr-2 h-4 w-4" />
-              <span>https://0web.minginc.xyz</span>
+              <Link target="_blank" className="underline hover:text-[#000] transition-all ease-in-out" to="https://mink-helpful-ocelot.ngrok-free.app">https://mink-helpful-ocelot.ngrok-free.app</Link>
             </div>
           </div>
         </div>
-        <div className="border-2 items-center justify-center flex flex-col p-1 px-4 text-sm cursor-pointer hover:border-[#bdc3c7] transition-all ease-in-out">
+        <div className="border-[1.5px] items-center justify-center flex flex-col p-1 px-4 text-sm cursor-pointer hover:border-[#818181] transition-all ease-in-out">
           <i className="ri-add-line"></i> Create new project
         </div>
         {/* {projectState.projects.map((project, index) => (
