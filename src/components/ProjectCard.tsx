@@ -78,26 +78,28 @@ export default function DeployedProjects() {
 
   return (
     <div className="container mx-auto px-1">
-      <h1 className="text-md font-medium mb-4">Projects</h1>
+      <h1 className="text-md font-medium mb-2">Projects</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="border-2 flex flex-col p-1 px-4">
+        <div className="border-2 flex flex-col p-1 px-4 cursor-pointer transition-all ease-in-out hover:border-[#bdc3c7]">
           <div className="flex flex-row items-center justify-between space-y-0">
-            <h2 className="text-lg font-semibold">0web</h2>
-            <Badge variant={"default"}>Complete</Badge>
+            <h2 className="text-sm mt-1">Sample Project</h2>
           </div>
-          <div className="mt-2">
+          <div className="mt-1">
             <div className="text-sm text-muted-foreground mb-1">
               Framework: Vite.js
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
               <GitBranchIcon className="mr-2 h-4 w-4" />
-              <span className="truncate">MingHQ/0web-ui</span>
+              <span className="truncate">MingHQ/sampleDapp</span>
             </div>
             <div className="flex items-center text-sm text-muted-foreground mt-1 mb-2">
               <GitCommitIcon className="mr-2 h-4 w-4" />
               <span>https://0web.minginc.xyz</span>
             </div>
           </div>
+        </div>
+        <div className="border-2 items-center justify-center flex flex-col p-1 px-4 text-sm cursor-pointer hover:border-[#bdc3c7] transition-all ease-in-out">
+          <i className="ri-add-line"></i> Create new project
         </div>
         {/* {projectState.projects.map((project, index) => (
           <Card key={index} className="flex flex-col">
