@@ -91,11 +91,23 @@ export default function DeployedProjects() {
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
               <GitBranchIcon className="mr-2 h-4 w-4" />
-              <Link to="https://github.com/MingInc/0web-sampleDApp" target="_blank" className="truncate hover:text-black">MingInc/0web-sampleDApp</Link>
+              <Link
+                to="https://github.com/MingInc/0web-sampleDApp"
+                target="_blank"
+                className="truncate hover:text-black"
+              >
+                MingInc/0web-sampleDApp
+              </Link>
             </div>
             <div className="flex items-center text-sm text-muted-foreground mt-1 mb-2">
               <GitCommitIcon className="mr-2 h-4 w-4" />
-              <Link target="_blank" className="underline hover:text-[#000] transition-all ease-in-out" to="https://mink-helpful-ocelot.ngrok-free.app">https://mink-helpful-ocelot.ngrok-free.app</Link>
+              <Link
+                target="_blank"
+                className="underline hover:text-[#000] transition-all ease-in-out"
+                to="https://cynthia.serveo.net"
+              >
+                https://cynthia.serveo.net
+              </Link>
             </div>
           </div>
         </div>
