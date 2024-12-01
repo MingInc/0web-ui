@@ -1,26 +1,27 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useProjectContext } from "@/contexts/ProjectContext/ProjectContext";
+// import { Badge } from "@/components/ui/badge";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardContent,
+//   CardFooter,
+//   CardHeader,
+// } from "@/components/ui/card";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { useProjectContext } from "@/contexts/ProjectContext/ProjectContext";
 import {
   GitBranchIcon,
   GitCommitIcon,
-  MoreVerticalIcon,
-  ExternalLinkIcon,
-  RocketIcon,
+  // MoreVerticalIcon,
+  // ExternalLinkIcon,
+  // RocketIcon,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function DeployedProjects() {
-  const { projectState } = useProjectContext();
-  const navigate = useNavigate();
+  // const { projectState } = useProjectContext();
+  // const navigate = useNavigate();
 
   // if (projectState.loading) {
   //   return (
