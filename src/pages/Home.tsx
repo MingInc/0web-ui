@@ -3,23 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 
 const features = [
   {
-    name: "☁️ Self-Host your dApps",
-    description: "Option to self-host dApp frontend, leave dns hassle to us.",
+    name: "☁️ Cloud IPFS Storage",
+    description: "IPFS content pinning requires the content to be hosted on local node, let us do that for you.",
   },
   {
-    name: "💰 DePin incentives",
+    name: "💰 DePin Infrastructure",
     description:
-      "We incentivized providers for sharing their computer over internet.",
+      "We utilize resource providers computing for our services and incentivize them per computing resource used.",
   },
   {
-    name: "🤝 Open Community x DAO",
+    name: "🤝 Smart Contract Audit",
     description:
-      "We provide open community where your ideas matter. We will have DAO soon.",
+      "Public library of known smart contract vulnerabilities are periodically added to our dictionary, and suggestions by AI.",
   },
   {
-    name: "⚡ Low latency",
+    name: "⚡ Public IPFS Gateway",
     description:
-      "We have providers from multi regions which helps us serve your dApp fast.",
+      "We provide public IPFS gateway to enable a broad range of applications to interface with IPFS using HTTP.",
   },
 ];
 
@@ -46,14 +46,9 @@ export function Home() {
               src="https://ik.imagekit.io/lexy/Ming/Screenshot%202024-08-22%20174630.png?updatedAt=1724363207670"
             />
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              🌁 Making web more Open.
+              Dev Tools to build on-chain applications. 
             </h2>
           </div>
-          <p className="mt-4 text-gray-500">
-            Empowering self-hosting and contribution to decentralized web
-            utilizing what we consider web2.0
-          </p>
-
           <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-7 lg:gap-x-8">
             {features.map((feature) => (
               <div key={feature.name} className="border-t border-gray-200 pt-2">
