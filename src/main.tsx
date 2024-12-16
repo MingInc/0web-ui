@@ -75,8 +75,8 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: (
           <ProtectedRoute redirectPath="/login">
-          <Dashboard />
-           </ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
         ),
         children: [
           {

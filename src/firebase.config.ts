@@ -79,8 +79,7 @@ export const fetchFrameworkInfo = async (
 export const signInWithGitHub = async () => {
   try {
     const result = await signInWithPopup(auth, githubProvider);
-    const credential = GithubAuthProvider.credentialFromResult(result);
-    return credential?.accessToken; // Get the GitHub access token
+    return result; // Get the GitHub access token
   } catch (error) {
     console.error(error);
     return null;

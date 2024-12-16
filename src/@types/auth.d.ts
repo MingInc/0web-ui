@@ -8,7 +8,6 @@ declare namespace Auth {
     authState: AuthState;
     login: (user: any) => void;
     logout: () => void;
-    linkAccount: (user: any) => void;
   }
 
   type AuthAction = { type: "LOGIN"; payload: any } | { type: "LOGOUT" };

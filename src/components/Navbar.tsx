@@ -40,9 +40,8 @@ export default function Navbar() {
     location.pathname.startsWith("/dashboard");
 
   const handleLogout = () => {
-    localStorage.removeItem("ming_authenticated_user");
-    navigate("/");
     logout();
+    navigate("/");
   };
 
   return (

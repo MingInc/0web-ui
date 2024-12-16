@@ -1,28 +1,41 @@
-import React, {
-  createContext,
-  useReducer,
-  ReactNode,
-  useEffect,
-} from "react";
+import { auth } from "@/firebase.config";
+import { getRedirectResult, GithubAuthProvider } from "firebase/auth";
+import React, { createContext, useReducer, ReactNode, useEffect } from "react";
 
 // Create the Context
-export const AuthContext = createContext<Auth.AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<Auth.AuthContextType | undefined>(
+  undefined
+);
 
-// Define the initial authState
+// @dev Initial Authentication State after rendering application
 const initialState: Auth.AuthState = {
   isAuthenticated: false,
   user: null,
 };
 
 // Reducer function
-const authReducer = (authState: Auth.AuthState, action: Auth.AuthAction): Auth.AuthState => {
+const authReducer = (
+  authState: Auth.AuthState,
+  action: Auth.AuthAction
+): Auth.AuthState => {
   switch (action.type) {
     case "LOGIN":
+      localStorage.setItem("mowhq_cookie_user", JSON.stringify(action.payload));
       return {
         isAuthenticated: true,
         user: action.payload,
       };
     case "LOGOUT":
+      auth.signOut().then(
+        () => {
+          localStorage.removeItem("mowhq_cookie_user");
+        },
+        (error) => {
+          console.log("User Signout Error from /src/contexts/AuthContext.tsx");
+          console.error("Sign Out Error", error);
+        }
+      );
+
       return {
         isAuthenticated: false,
         user: null,
@@ -32,7 +45,7 @@ const authReducer = (authState: Auth.AuthState, action: Auth.AuthAction): Auth.A
   }
 };
 
-// Create the Context Provider component
+// Context Provider component
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -48,26 +61,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: "LOGOUT" });
   };
 
-  const linkAccount = (user: any) => {
-    dispatch({ type: "LOGIN", payload: user }); // Update to reflect the linked account
-  };
-
   useEffect(() => {
-    const _user: any = JSON.parse(
-      localStorage.getItem("ming_authenticated_user") || "{}"
-    );
-
-    if (_user?.email) {
-      dispatch({ type: "LOGIN", payload: _user });
-    }
+    auth.onAuthStateChanged((_user) => {
+      if (_user != null) {
+        dispatch({ type: "LOGIN", payload: _user });
+      }
+    });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authState, login, logout, linkAccount }}>
+    <AuthContext.Provider value={{ authState, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export { AuthProvider };
