@@ -19,7 +19,7 @@ import { useState } from "react";
 export default function ConfigureProject() {
   const navigate = useNavigate();
   const { authState } = useAuth();
-  const { repos } = useRepositories(authState?.user?.id);
+  const { repos } = useRepositories();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
@@ -33,10 +33,10 @@ export default function ConfigureProject() {
       <div className="flex gap-2 mb-4">
         <Select>
           <SelectTrigger className="w-[180px] border-gray-700">
-            <SelectValue placeholder={authState.user.login} />
+            {/* <SelectValue placeholder={authState.user?.displayName} /> */}
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={authState.user.login as string}>{authState.user.login}</SelectItem>
+            <SelectItem value={authState.user?.displayName as string}>{authState.user?.displayName}</SelectItem>
           </SelectContent>
         </Select>
         <div className="relative flex-grow">

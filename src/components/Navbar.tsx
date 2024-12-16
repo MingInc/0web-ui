@@ -33,7 +33,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { authState, logout } = useAuth();
-  const { user } = useUser(authState?.user?.id)
+  const { user } = useUser(authState?.user?.id);
 
   const isDashboardRoute =
     location.pathname === "/dashboard" ||
@@ -74,18 +74,13 @@ export default function Navbar() {
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-1 cursor-pointer border-[2px] rounded-xl py-1 pl-1 pr-2">
                 <Avatar className="w-6 object-contain h-6">
-                  <AvatarImage src={authState && authState?.user?.avatar_url} />
+                  <AvatarImage src={authState && authState?.user?.photoURL} />
                   <AvatarFallback>
                     <AvatarImage src="https://images.unsplash.com/photo-1644912325393-cb31907c98f0?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                   </AvatarFallback>
                 </Avatar>
                 <p className="text-sm">
-                  {(authState &&
-                    authState.user &&
-                    (authState?.user?.email
-                      ? authState?.user?.email?.split("@")[0]
-                      : authState?.user?.displayName)) ||
-                    authState?.user?.data?.email}
+                  {authState?.user && authState.user?.displayName}
                 </p>
               </div>
             </DropdownMenuTrigger>

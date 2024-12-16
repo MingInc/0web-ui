@@ -1,6 +1,6 @@
 import { auth } from "@/firebase.config";
-import { getRedirectResult, GithubAuthProvider } from "firebase/auth";
 import React, { createContext, useReducer, ReactNode, useEffect } from "react";
+import { getRedirectResult, User } from "firebase/auth";
 
 // Create the Context
 export const AuthContext = createContext<Auth.AuthContextType | undefined>(
@@ -25,21 +25,21 @@ const authReducer = (
         isAuthenticated: true,
         user: action.payload,
       };
+
     case "LOGOUT":
       auth.signOut().then(
         () => {
           localStorage.removeItem("mowhq_cookie_user");
         },
         (error) => {
-          console.log("User Signout Error from /src/contexts/AuthContext.tsx");
           console.error("Sign Out Error", error);
         }
       );
-
       return {
         isAuthenticated: false,
         user: null,
       };
+
     default:
       return authState;
   }
@@ -53,7 +53,7 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  const login = (user: any) => {
+  const login = (user: User) => {
     dispatch({ type: "LOGIN", payload: user });
   };
 
@@ -62,11 +62,26 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged((_user) => {
-      if (_user != null) {
-        dispatch({ type: "LOGIN", payload: _user });
+    // Listen for auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch({ type: "LOGIN", payload: user });
       }
     });
+
+    // Handle redirect result when returning to the app
+    (async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          dispatch({ type: "LOGIN", payload: authState });
+        }
+      } catch (error) {
+        console.error("Error handling redirect sign-in:", error);
+      }
+    })();
+
+    return () => unsubscribe();
   }, []);
 
   return (

@@ -25,7 +25,7 @@ export const useProjectContext = () => {
 // Provider component to wrap around your app
 export const ProjectProvider = ({ children }: { children: ReactNode }) => {
   const [projectState, projectDispatch] = useReducer(projectReducer, initialState);
-
+  
   return (
     <ProjectContext.Provider value={{ projectState, projectDispatch }}>
       {children}

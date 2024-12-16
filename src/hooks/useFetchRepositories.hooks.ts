@@ -1,45 +1,45 @@
 import { useToast } from "@/components/ui";
-import { fetchRepositories } from "@/services/github.services";
+import { auth } from "@/firebase.config";
+// import { fetchRepositories } from "@/services/github.services";
+import { getRedirectResult, GithubAuthProvider } from "firebase/auth";
 import { useEffect, useState } from "react";
 
-export const useRepositories = (userId: string) => {
+export const useRepositories = () => {
   const [repos, setRepos] = useState<[] | Component.Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null); // Specify type for error
   // const { notify } = useNotification();  // Using a notification hook to alert user
   const { toast } = useToast();
   useEffect(() => {
-    const fetchRepos = async () => {
-      setLoading(true);
-      try {
-        // Call fetchRepositories only if userId exists
-        if (userId) {
-          const data = await fetchRepositories(userId);
-          setRepos(data);
-        } else {
-          throw new Error("User ID is required.");
-        }
-      } catch (err) {
-        const errorMessage = (err as Error).message || "An error occurred";
-        setError(errorMessage);
+    auth.onAuthStateChanged((_user) => {
+      getRedirectResult(auth)
+        .then((result: any) => {
+          const credential = GithubAuthProvider.credentialFromResult(result);
+          if (credential) {
+            // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+            const token = credential.accessToken;
+            // ...
+            console.log(token)
+          }
 
-        // If the error message indicates user logout (due to refresh token issue), notify user
-        if (
-          errorMessage ===
-          "The refresh token is invalid or expired. Please re-authenticate."
-        ) {
-          toast({
-            title: "Your session has expired",
-            description: "Please log in again.",
-          });
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRepos();
-  }, [toast, userId]); // Include `notify` in dependency array to avoid stale closure
+          // The signed-in user info.
+          const user = result?.user;
+          console.log(user)
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+        })
+        .catch((error: any) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          // const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GithubAuthProvider.credentialFromError(error);
+          // ...
+        });
+    });
+  }, []);
 
   return { repos, loading, error };
 };

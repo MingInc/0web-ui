@@ -79,6 +79,9 @@ export const fetchFrameworkInfo = async (
 export const signInWithGitHub = async () => {
   try {
     const result = await signInWithPopup(auth, githubProvider);
+    const credential = GithubAuthProvider.credentialFromResult(result);
+
+    localStorage.setItem('ming_refreshToken_cookie', JSON.stringify(credential))
     return result; // Get the GitHub access token
   } catch (error) {
     console.error(error);

@@ -5,7 +5,7 @@
   }
   
   export type ProjectActions =
-    | { type: "FETCH_PROJECTS_START" }
+    | { type: "FETCH_REPOS_START" }
     | { type: "FETCH_PROJECTS_SUCCESS"; payload: any[] }
     | { type: "FETCH_PROJECTS_ERROR"; payload: string }
     | { type: "ADD_PROJECT"; payload: any }
@@ -14,11 +14,11 @@
   
   export const projectReducer = (state: ProjectState, action: ProjectActions): ProjectState => {
     switch (action.type) {
-      case "FETCH_PROJECTS_START":
+      case "FETCH_REPOS_START":
         return { ...state, loading: true, error: null };
-      case "FETCH_PROJECTS_SUCCESS":
+      case "FETCH_REPOS_SUCCESS":
         return { ...state, loading: false, projects: action.payload };
-      case "FETCH_PROJECTS_ERROR":
+      case "FETCH_REPOS_ERROR":
         return { ...state, loading: false, error: action.payload };
       case "ADD_PROJECT":
         return { ...state, projects: [...state.projects, action.payload] };

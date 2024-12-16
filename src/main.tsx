@@ -125,12 +125,12 @@ createRoot(document.getElementById("root")!).render(
   <CookiesProvider defaultSetOptions={{ path: "/" }}>
     <AuthProvider>
       <RepoProvider>
-        <ProjectProvider>
+        {/* <ProjectProvider> */}
           <RouterProvider router={router} />
           <Toaster />
           <Analytics />
           <SpeedInsights />
-        </ProjectProvider>
+        {/* </ProjectProvider> */}
       </RepoProvider>
     </AuthProvider>
   </CookiesProvider>
