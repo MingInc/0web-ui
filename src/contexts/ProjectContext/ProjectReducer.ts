@@ -16,10 +16,10 @@
     switch (action.type) {
       case "FETCH_REPOS_START":
         return { ...state, loading: true, error: null };
-      case "FETCH_REPOS_SUCCESS":
-        return { ...state, loading: false, projects: action.payload };
-      case "FETCH_REPOS_ERROR":
-        return { ...state, loading: false, error: action.payload };
+      // case "FETCH_REPOS_SUCCESS":
+      //   return { ...state, loading: false, projects: action.payload };
+      // case "FETCH_REPOS_ERROR":
+      //   return { ...state, loading: false, error: action.payload };
       case "ADD_PROJECT":
         return { ...state, projects: [...state.projects, action.payload] };
       case "UPDATE_PROJECT":
