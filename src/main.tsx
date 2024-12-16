@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
-import { ProjectProvider } from "./contexts/ProjectContext/ProjectContext";
+// import { ProjectProvider } from "./contexts/ProjectContext/ProjectContext";
 import { RepoProvider } from "./contexts/RepoContext";
 import NewProject from "./components/NewProject.component";
 import TemplatesPage from "./pages/Boilerplates";

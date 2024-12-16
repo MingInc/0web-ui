@@ -23,7 +23,7 @@ export default function ConfigureProject() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const filterRepos = repos.filter((repo) =>
+  const filterRepos = repos.filter((repo: any) =>
     repo.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
@@ -54,7 +54,7 @@ export default function ConfigureProject() {
       </div>
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {filterRepos.length > 0 &&
-          filterRepos?.map((repo) => {
+          filterRepos?.map((repo:any) => {
             const parsedDate: Date = new Date(repo.updated_at);
             const now: Date = new Date();
             const timeDifference: number = now.getTime() - parsedDate.getTime();
