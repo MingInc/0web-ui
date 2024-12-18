@@ -74,13 +74,23 @@ export default function Navbar() {
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-1 cursor-pointer border-[2px] rounded-xl py-1 pl-1 pr-2">
                 <Avatar className="w-6 object-contain h-6">
-                  <AvatarImage src={authState && authState?.user?.photoURL} />
+                  {authState?.user?.photoURL ? (
+                    <AvatarImage src={authState?.user?.photoURL} />
+                  ) : authState?.user?.user?.photoURL ? (
+                    <AvatarImage src={authState?.user?.user?.photoURL} />
+                  ) : (
+                    ""
+                  )}
                   <AvatarFallback>
                     <AvatarImage src="https://images.unsplash.com/photo-1644912325393-cb31907c98f0?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                   </AvatarFallback>
                 </Avatar>
                 <p className="text-sm">
-                  {authState?.user && authState.user?.displayName}
+                  {authState?.user?.displayName
+                    ? authState.user?.displayName
+                    : authState?.user?.user?.displayName
+                    ? authState?.user?.user?.displayName
+                    : ""}
                 </p>
               </div>
             </DropdownMenuTrigger>
