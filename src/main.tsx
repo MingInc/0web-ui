@@ -74,7 +74,7 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: (
-          <ProtectedRoute redirectPath="/login">
+          <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         ),
@@ -122,7 +122,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <CookiesProvider defaultSetOptions={{ path: "/" }}>
+  // <CookiesProvider defaultSetOptions={{ path: "/" }}>
     <AuthProvider>
       <RepoProvider>
         {/* <ProjectProvider> */}
@@ -133,5 +133,5 @@ createRoot(document.getElementById("root")!).render(
         {/* </ProjectProvider> */}
       </RepoProvider>
     </AuthProvider>
-  </CookiesProvider>
+  // </CookiesProvider>
 );

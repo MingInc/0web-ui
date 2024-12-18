@@ -1,44 +1,83 @@
+/* disable-eslint */
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  // SelectValue,
-} from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
-import {
-  useAuth,
-  useDebounce,
-  useRepositories,
-} from "@/hooks";
-import { useState } from "react";
+import { useAuth, useDebounce } from "@/hooks";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui";
+import { Octokit } from "octokit";
 
 export default function ConfigureProject() {
   const navigate = useNavigate();
   const { authState } = useAuth();
-  const { repos } = useRepositories();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const repos: any = [];
 
   const filterRepos = repos.filter((repo: any) =>
     repo.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
+  const fetchGitHubRepos = async () => {
+    try {
+      // Retrieve stored credentials from localStorage
+      const storedCredentials = localStorage.getItem(
+        "mowhq_refreshToken_cookie"
+      );
+
+      if (!storedCredentials) {
+        console.error("No credentials found in localStorage.");
+        return;
+      }
+
+      const credentials = JSON.parse(storedCredentials);
+      const { accessToken } = credentials;
+
+      if (!accessToken) {
+        console.error("Access token not found in credentials.");
+        return;
+      }
+
+      // Initialize Octokit with the access token
+      const octokit = new Octokit({
+        auth: accessToken,
+      });
+
+      // Fetch repositories
+      const response = await octokit.request("GET /users/{username}/repos", {
+        username: "13x54n", // Replace or make dynamic
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      });
+
+      console.log("User repositories:", response.data);
+    } catch (error) {
+      console.error("Error fetching GitHub repositories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGitHubRepos();
+  }, []);
+
   return (
-    <div className="w-full p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Import Git Repository</h2>
+    <div className="w-full p-6">
+      <h2 className="text-md mb-4">Import from Git</h2>
       <div className="flex gap-2 mb-4">
-        <Select>
-          <SelectTrigger className="w-[180px] border-gray-700">
-            {/* <SelectValue placeholder={authState.user?.displayName} /> */}
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={authState.user?.displayName as string}>{authState.user?.displayName}</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-1 cursor-pointer border-[2px] rounded-xl py-1 pl-1 pr-2">
+          <Avatar className="w-6 object-contain h-6">
+            <AvatarImage src={authState && authState?.user?.photoURL} />
+
+            <AvatarFallback>
+              <AvatarImage src="https://images.unsplash.com/photo-1644912325393-cb31907c98f0?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+            </AvatarFallback>
+          </Avatar>
+          <p className="text-sm">
+            {authState?.user && authState.user?.displayName}
+          </p>
+        </div>
         <div className="relative flex-grow">
           <Search
             className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -54,7 +93,7 @@ export default function ConfigureProject() {
       </div>
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {filterRepos.length > 0 &&
-          filterRepos?.map((repo:any) => {
+          filterRepos?.map((repo: any) => {
             const parsedDate: Date = new Date(repo.updated_at);
             const now: Date = new Date();
             const timeDifference: number = now.getTime() - parsedDate.getTime();

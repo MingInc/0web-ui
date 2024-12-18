@@ -1,6 +1,5 @@
 import { auth } from "@/firebase.config";
 import React, { createContext, useReducer, ReactNode, useEffect } from "react";
-import { getRedirectResult, User } from "firebase/auth";
 
 // Create the Context
 export const AuthContext = createContext<Auth.AuthContextType | undefined>(
@@ -53,7 +52,7 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  const login = (user: User) => {
+  const login = (user: any) => {
     dispatch({ type: "LOGIN", payload: user });
   };
 
@@ -62,26 +61,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    // Listen for auth state changes
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        dispatch({ type: "LOGIN", payload: user });
+        login(user);
+      } else {
+        logout();
       }
     });
-
-    // Handle redirect result when returning to the app
-    (async () => {
-      try {
-        const result = await getRedirectResult(auth);
-        if (result && result.user) {
-          dispatch({ type: "LOGIN", payload: authState });
-        }
-      } catch (error) {
-        console.error("Error handling redirect sign-in:", error);
-      }
-    })();
-
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup subscription
   }, []);
 
   return (

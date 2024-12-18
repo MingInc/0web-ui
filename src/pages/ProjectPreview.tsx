@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { GithubIcon, GlobeIcon, PackageIcon, TerminalIcon, ClockIcon, CheckCircleIcon, XCircleIcon } from 'lucide-react'
+import { useAuth } from '@/hooks'
 
 // Mock data based on the provided schema
 const projectData = {
@@ -32,6 +33,9 @@ const projectData = {
 
 export function ProjectPreview() {
   const [activeTab, setActiveTab] = useState("overview")
+  const {authState} = useAuth()
+
+  console.log(authState.user)
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">

@@ -1,18 +1,20 @@
-import { useAuth } from '@/hooks';
-import React, { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { auth } from "@/firebase.config";
+import React, { ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
-  redirectPath?: string;
-  children?:ReactNode
+  children?: ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ redirectPath = '/login', children }) => {
-  const { authState } = useAuth();
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const navigate = useNavigate();
 
-  if (!authState.isAuthenticated) {
-    return <Navigate to={redirectPath} replace={true} />;
-  }
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      console.log(user);
+      if (!user) navigate("/login");
+    });
+  }, []);
 
   return <>{children}</>;
 };
