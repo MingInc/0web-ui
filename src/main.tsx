@@ -31,7 +31,7 @@ import { Pricing } from "./pages/Pricing";
 import Projects from "./pages/DeployProject";
 import NotFound from "./pages/NotFound.pages";
 import { GithubCallback } from "./pages/GithubCallback.pages";
-import { CookiesProvider } from "react-cookie";
+// import { CookiesProvider } from "react-cookie";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
