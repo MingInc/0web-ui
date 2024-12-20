@@ -63,30 +63,39 @@ export default function ConfigureProject() {
   }, []);
 
   return (
-    <div className="w-full p-6">
-      <h2 className="text-md mb-4">Import from Git</h2>
+    <div className="w-full p-6 pt-0">
+      <h2 className="text-sm mb-2">Import from Git</h2>
       <div className="flex gap-2 mb-4">
-        <div className="flex items-center gap-1 cursor-pointer border-[2px] rounded-xl py-1 pl-1 pr-2">
+        <div className="flex items-center gap-1 cursor-pointer border-[1.5px] rounded-xl py-0 px-2.5">
           <Avatar className="w-6 object-contain h-6">
-            <AvatarImage src={authState && authState?.user?.photoURL} />
-
+            {authState?.user?.photoURL ? (
+              <AvatarImage src={authState?.user?.photoURL} />
+            ) : authState?.user?.user?.photoURL ? (
+              <AvatarImage src={authState?.user?.user?.photoURL} />
+            ) : (
+              ""
+            )}
             <AvatarFallback>
               <AvatarImage src="https://images.unsplash.com/photo-1644912325393-cb31907c98f0?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
             </AvatarFallback>
           </Avatar>
           <p className="text-sm">
-            {authState?.user && authState.user?.displayName}
+            {authState?.user?.displayName
+              ? authState.user?.displayName
+              : authState?.user?.user?.displayName
+              ? authState?.user?.user?.displayName
+              : ""}
           </p>
         </div>
         <div className="relative flex-grow">
           <Search
             className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={20}
+            size={16}
           />
           <Input
             type="text"
             placeholder="Search..."
-            className="pl-8 border-gray-700 text-black"
+            className="pl-8 border-[1.5px] border-gray-300 text-black"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>

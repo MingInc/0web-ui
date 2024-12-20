@@ -15,10 +15,10 @@ import ConfigureProject from "@/components/ConfigureProject.component";
 
 export default function EnhancedProjects() {
   const navigate = useNavigate();
-  
+
   return (
     <div className="container mx-auto px-4 py-4">
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card className="md:row-span-2 px-3">
           <CardHeader>
             <CardTitle className="flex items-center">
