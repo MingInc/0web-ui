@@ -18,7 +18,16 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { BarChart2, ChevronLeft, ChevronRight, Copy, Database, FileIcon, Globe, Group, Key, LayoutGrid, Lock, Menu, MoreVertical, ShoppingBag } from 'lucide-react'
+import { Input } from "@/components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { BarChart2, ChevronLeft, ChevronRight, Copy, Database, FileIcon, Globe, Group, Key, LayoutGrid, Lock, Menu, MoreVertical, Plus, Search, ShoppingBag } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 interface NavItem {
@@ -83,25 +92,41 @@ const navigation: { section: string; items: NavItem[] }[] = [
   },
 ]
 
-const files = [
-  {
-    id: 1,
-    name: "Screenshot from 2024-12-20 08-15-56.png",
-    size: "67.48 KB",
-    cid: "bafkr...03xti",
-    created: "12/20/2024",
-  },
+interface File {
+  id: number
+  name: string
+  size: string
+  cid: string
+  created: string
+}
+
+const initialFiles: File[] = [
+  // {
+  //   id: 1,
+  //   name: "Screenshot from 2024-12-20 08-15-56.png",
+  //   size: "67.48 KB",
+  //   cid: "bafkr...03xti",
+  //   created: "12/20/2024",
+  // },
 ]
 
-export default function FileManagement() {
+export default function Storage() {
   const [activeSection, setActiveSection] = React.useState("Files")
   const [selectedRows, setSelectedRows] = React.useState<number[]>([])
   const [rowsPerPage, setRowsPerPage] = React.useState("10")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [searchQuery, setSearchQuery] = React.useState("")
+  const [files, setFiles] = React.useState<File[]>(initialFiles)
+  const [isAddFileDialogOpen, setIsAddFileDialogOpen] = React.useState(false)
+  const [newFileName, setNewFileName] = React.useState("")
+
+  const filteredFiles = files.filter(file =>
+    file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedRows(files.map(file => file.id))
+      setSelectedRows(filteredFiles.map(file => file.id))
     } else {
       setSelectedRows([])
     }
@@ -112,6 +137,22 @@ export default function FileManagement() {
       setSelectedRows([...selectedRows, id])
     } else {
       setSelectedRows(selectedRows.filter(rowId => rowId !== id))
+    }
+  }
+
+  const handleAddFile = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (newFileName) {
+      const newFile: File = {
+        id: files.length + 1,
+        name: newFileName,
+        size: "0 KB",
+        cid: "bafkr...new",
+        created: new Date().toLocaleDateString(),
+      }
+      setFiles([...files, newFile])
+      setNewFileName("")
+      setIsAddFileDialogOpen(false)
     }
   }
 
@@ -165,13 +206,51 @@ export default function FileManagement() {
       {/* Main Content */}
       <div className="flex-1 overflow-auto w-full">
         <div className="p-4 md:p-6">
+          {/* Search and Add File */}
+          <div className="mb-4 flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-grow">
+              <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                className="pl-8"
+                placeholder="Search files..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Dialog open={isAddFileDialogOpen} onOpenChange={setIsAddFileDialogOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add New File
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New File</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleAddFile} className="space-y-4">
+                  <div>
+                    <Label htmlFor="fileName">File Name</Label>
+                    <Input
+                      id="fileName"
+                      value={newFileName}
+                      onChange={(e) => setNewFileName(e.target.value)}
+                      placeholder="Enter file name"
+                    />
+                  </div>
+                  <Button type="submit">Add File</Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </div>
+
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-12">
                     <Checkbox
-                      checked={selectedRows.length === files.length}
+                      checked={selectedRows.length === filteredFiles.length}
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
@@ -183,7 +262,7 @@ export default function FileManagement() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {files.map((file) => (
+                {filteredFiles.map((file) => (
                   <TableRow key={file.id}>
                     <TableCell>
                       <Checkbox
