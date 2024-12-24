@@ -85,7 +85,7 @@ const StorageFiles: React.FC = () => {
     formData.append("user", user.uid);
 
     try {
-      const response = await fetch("http://localhost:3000/store", {
+      const response = await fetch("http://3.147.80.195:3000/store", {
         method: "POST",
         body: formData,
       });
