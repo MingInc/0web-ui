@@ -43,10 +43,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { pinFileToIPFS } from "@/hooks/storage/pinToIPFS";
+import { deleteFile } from "@/hooks/storage/deleteFile";
 
 // Renamed the custom File interface to UploadedFile
 interface UploadedFile {
-  id: number;
+  _id: number;
   name: string;
   size: string;
   cid: string;
@@ -74,12 +76,15 @@ const StorageFiles: React.FC = () => {
           : authState.user.user.uid
           ? authState.user.user.uid
           : "";
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/files/${userUid}`, {
-          method: "GET",
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_URI}/files/${userUid}`,
+          {
+            method: "GET",
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           setFiles(data.files);
@@ -139,7 +144,7 @@ const StorageFiles: React.FC = () => {
           `File uploaded successfully! IPFS Hash: ${data.file.cid}`
         );
         const newFile: UploadedFile = {
-          id: files.length + 1,
+          _id: data.file._id,
           name: file.name,
           size: `${(file.size / 1024).toFixed(2)} KB`,
           cid: data.file.cid,
@@ -159,13 +164,18 @@ const StorageFiles: React.FC = () => {
   );
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectedRows(checked ? filteredFiles.map((file) => file.id) : []);
+    setSelectedRows(checked ? filteredFiles.map((file) => file._id) : []);
   };
 
   const handleSelectRow = (id: number, checked: boolean) => {
     setSelectedRows((prev) =>
       checked ? [...prev, id] : prev.filter((rowId) => rowId !== id)
     );
+  };
+
+  const handleDeleteFile = (fileId: number) => {
+    deleteFile(fileId);
+    setFiles((prevFiles) => prevFiles.filter((file) => file._id !== fileId));
   };
 
   return (
@@ -252,7 +262,15 @@ const StorageFiles: React.FC = () => {
                     <span className="truncate">
                       {file.cid.slice(0, 6) + "..." + file.cid.slice(-3)}
                     </span>
-                    <Button variant="ghost" size="icon">
+                    <Button
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `https://ipfs.io/ipfs/${file.cid}`
+                        )
+                      }
+                      variant="ghost"
+                      size="icon"
+                    >
                       <Copy className="h-4 w-4" />
                     </Button>
                   </div>
@@ -268,15 +286,28 @@ const StorageFiles: React.FC = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem className="flex items-center gap-2">
+                      <DropdownMenuItem
+                        onClick={() => pinFileToIPFS(file._id)}
+                        className="flex items-center gap-2"
+                      >
                         <i className="ri-pushpin-line"></i> Pin to IPFS
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center gap-2">
+                      <DropdownMenuItem
+                        onClick={() =>
+                          navigator.clipboard.writeText(
+                            `https://ipfs.io/ipfs/${file.cid}`
+                          )
+                        }
+                        className="flex items-center gap-2"
+                      >
                         <i className="ri-share-line"></i> Share
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center gap-2">
+                      <DropdownMenuItem
+                        onClick={() => handleDeleteFile(file._id)}
+                        className="flex items-center gap-2"
+                      >
                         <i className="ri-delete-bin-line"></i> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>

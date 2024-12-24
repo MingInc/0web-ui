@@ -22,7 +22,7 @@ const Layout: React.FC = () => {
       </header>
       <main className="layout-main border-t-[0.5px]">
         <div className="flex w-full flex-col">
-          <main className="mx-[5vw] py-3">
+          <main className="mx-[2vw] py-3">
             <Outlet />
           </main>
         </div>
