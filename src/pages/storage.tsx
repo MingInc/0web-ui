@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   BarChart2,
-  Database,
+  // Database,
   FileIcon,
   Globe,
-  Group,
+  // Group,
   Key,
-  LayoutGrid,
-  Lock,
+  // LayoutGrid,
+  // Lock,
   Menu,
   ShoppingBag,
 } from "lucide-react";
