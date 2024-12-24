@@ -85,7 +85,7 @@ const StorageFiles: React.FC = () => {
     formData.append("user", user.uid);
 
     try {
-      const response = await fetch("http://3.147.80.195:3000/store", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/store`, {
         method: "POST",
         body: formData,
       });
