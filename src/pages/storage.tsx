@@ -29,34 +29,21 @@ interface NavItem {
 
 const navigation: { section: string; items: NavItem[] }[] = [
   {
-    section: "STORAGE",
-    items: [
-      {
-        title: "Files",
-        icon: FileIcon,
-        isNew: true,
-      },
-      {
-        title: "Groups",
-        icon: Group,
-      },
-    ],
-  },
-  {
     section: "IPFS",
     items: [
       {
         title: "IPFS Files",
-        icon: Database,
+        icon: FileIcon,
+        isNew: true
       },
-      {
-        title: "IPFS Groups",
-        icon: LayoutGrid,
-      },
-      {
-        title: "Access Controls",
-        icon: Lock,
-      },
+      // {
+      //   title: "IPFS Groups",
+      //   icon: LayoutGrid,
+      // },
+      // {
+      //   title: "Access Controls",
+      //   icon: Lock,
+      // },
     ],
   },
   {
@@ -83,7 +70,7 @@ const navigation: { section: string; items: NavItem[] }[] = [
 ];
 
 export default function Storage() {
-  const [activeSection, setActiveSection] = React.useState("Files");
+  const [activeSection, setActiveSection] = React.useState("IPFS Files");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
@@ -137,7 +124,7 @@ export default function Storage() {
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto w-full">
-        {activeSection === "Files" && <StorageFiles />}
+        {activeSection === "IPFS Files" && <StorageFiles />}
       </div>
     </div>
   );

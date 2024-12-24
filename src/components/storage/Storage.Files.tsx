@@ -7,13 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,8 +24,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  ChevronLeft,
-  ChevronRight,
+  //   ChevronLeft,
+  //   ChevronRight,
   Copy,
   FileIcon,
   MoreVertical,
@@ -33,6 +33,16 @@ import {
   Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks";
+import { toast } from "../ui";
+import moment from "moment";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Renamed the custom File interface to UploadedFile
 interface UploadedFile {
@@ -40,27 +50,49 @@ interface UploadedFile {
   name: string;
   size: string;
   cid: string;
-  created: string;
+  uploadedAt: string;
 }
 
-const initialFiles: UploadedFile[] = [
-  {
-    id: 1,
-    name: "Screenshot from 2024-12-20 08-15-56.png",
-    size: "67.48 KB",
-    cid: "bafkr...03xti",
-    created: "12/20/2024",
-  },
-];
+const initialFiles: UploadedFile[] = [];
 
 const StorageFiles: React.FC = () => {
+  const { authState } = useAuth();
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [rowsPerPage, setRowsPerPage] = useState<string>("10");
+  //   const [rowsPerPage, setRowsPerPage] = useState<string>("10");
   const [isAddFileDialogOpen, setIsAddFileDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [files, setFiles] = useState<UploadedFile[]>(initialFiles);
   const [file, setFile] = useState<File | null>(null); // Use the built-in File type for uploads
   const [uploadStatus, setUploadStatus] = useState<string>("");
+
+  // Fetch files from the server when the component mounts
+  React.useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const userUid = authState.user.uid
+          ? authState.user.uid
+          : authState.user.user.uid
+          ? authState.user.user.uid
+          : "";
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/files/${userUid}`, {
+          method: "GET",
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFiles(data.files);
+        } else {
+          console.error("Failed to fetch files");
+        }
+      } catch (error) {
+        console.error("Error fetching files:", error);
+      }
+    };
+
+    fetchFiles();
+  }, [authState.user]);
 
   // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,15 +108,26 @@ const StorageFiles: React.FC = () => {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem("mowhq_cookie_user") || "");
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", file.name);
     formData.append("size", `${(file.size / 1024).toFixed(2)} KB`);
-    formData.append("user", user.uid);
+    formData.append(
+      "user",
+      authState.user.uid
+        ? authState.user.uid
+        : authState.user.user.uid
+        ? authState.user.user.uid
+        : ""
+    );
 
     try {
+      setIsAddFileDialogOpen(false);
+      toast({
+        title: "Uploading file...",
+        description: "Please wait while we upload your file.",
+      });
+
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/store`, {
         method: "POST",
         body: formData,
@@ -100,10 +143,9 @@ const StorageFiles: React.FC = () => {
           name: file.name,
           size: `${(file.size / 1024).toFixed(2)} KB`,
           cid: data.file.cid,
-          created: new Date().toLocaleDateString(),
+          uploadedAt: new Date().toLocaleDateString(),
         };
         setFiles((prevFiles) => [...prevFiles, newFile]);
-        setIsAddFileDialogOpen(false);
         setUploadStatus("");
         setFile(null);
       }
@@ -186,13 +228,13 @@ const StorageFiles: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredFiles.map((file) => (
-              <TableRow key={file.id}>
+            {filteredFiles.map((file, index) => (
+              <TableRow key={index}>
                 <TableCell>
                   <Checkbox
-                    checked={selectedRows.includes(file.id)}
+                    checked={selectedRows.includes(index)}
                     onCheckedChange={(checked) =>
-                      handleSelectRow(file.id, checked as boolean)
+                      handleSelectRow(index, checked as boolean)
                     }
                   />
                 </TableCell>
@@ -202,20 +244,43 @@ const StorageFiles: React.FC = () => {
                     <span className="truncate">{file.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="whitespace-nowrap">{file.size}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {(parseFloat(file.size) / 1024).toFixed(2)} KB
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2 min-w-[120px]">
-                    <span className="truncate">{file.cid}</span>
+                    <span className="truncate">
+                      {file.cid.slice(0, 6) + "..." + file.cid.slice(-3)}
+                    </span>
                     <Button variant="ghost" size="icon">
                       <Copy className="h-4 w-4" />
                     </Button>
                   </div>
                 </TableCell>
-                <TableCell>{file.created}</TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-4 w-4" />
-                  </Button>
+                  {moment(file.uploadedAt).startOf("hour").fromNow()}
+                </TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Button variant="ghost" size="icon">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <i className="ri-pushpin-line"></i> Pin to IPFS
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <i className="ri-share-line"></i> Share
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <i className="ri-delete-bin-line"></i> Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
@@ -224,7 +289,7 @@ const StorageFiles: React.FC = () => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+      {/* <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Rows per page:</span>
           <Select value={rowsPerPage} onValueChange={setRowsPerPage}>
@@ -245,8 +310,8 @@ const StorageFiles: React.FC = () => {
           <Button variant="ghost" size="icon" disabled>
             <ChevronRight className="h-4 w-4" />
           </Button>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 };
