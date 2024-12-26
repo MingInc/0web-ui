@@ -4,16 +4,16 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  BarChart2,
+  // BarChart2,
   // Database,
   FileIcon,
-  Globe,
+  // Globe,
   // Group,
-  Key,
+  // Key,
   // LayoutGrid,
   // Lock,
   Menu,
-  ShoppingBag,
+  // ShoppingBag,
 } from "lucide-react";
 import StorageFiles from "@/components/storage/Storage.Files";
 
@@ -46,27 +46,27 @@ const navigation: { section: string; items: NavItem[] }[] = [
       // },
     ],
   },
-  {
-    section: "TOOLBOX",
-    items: [
-      {
-        title: "Analytics",
-        icon: BarChart2,
-      },
-      {
-        title: "Gateways",
-        icon: Globe,
-      },
-      {
-        title: "API Keys",
-        icon: Key,
-      },
-      {
-        title: "Marketplace",
-        icon: ShoppingBag,
-      },
-    ],
-  },
+  // {
+  //   section: "TOOLBOX",
+  //   items: [
+  //     {
+  //       title: "Analytics",
+  //       icon: BarChart2,
+  //     },
+  //     {
+  //       title: "Gateways",
+  //       icon: Globe,
+  //     },
+  //     {
+  //       title: "API Keys",
+  //       icon: Key,
+  //     },
+  //     {
+  //       title: "Marketplace",
+  //       icon: ShoppingBag,
+  //     },
+  //   ],
+  // },
 ];
 
 export default function Storage() {

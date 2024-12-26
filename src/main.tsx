@@ -33,6 +33,7 @@ import NotFound from "./pages/NotFound.pages";
 import { GithubCallback } from "./pages/GithubCallback.pages";
 // import { CookiesProvider } from "react-cookie";
 import ProtectedRoute from "./components/ProtectedRoute";
+import GenKit from "./pages/GenKit";
 
 const router = createBrowserRouter([
   {
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <DeployedProjects />,
+            element: <GenKit />,
           },
           {
             path: "boilerplates",
