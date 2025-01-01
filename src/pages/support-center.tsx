@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,87 +21,85 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, Search } from "lucide-react";
-import { useAuth, useFileInput, useSupport } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
 
+interface SupportCase {
+  _id: string;
+  ticketInfo: {
+    title: string;
+  };
+  status: string;
+  createdAt: string;
+}
+
 export default function SupportCenter() {
-  const [support, setSupport] = useState<Component.Ticket[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [newCaseTitle, setNewCaseTitle] = useState("");
   const [newCaseDescription, setNewCaseDescription] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");  // Declare `searchTerm` state here
-  const { authState } = useAuth();
-  const { file, handleFileChange, fileName, fileURL, handleRemoveFile } =
-    useFileInput();
-  const { creating , createCase } = useSupport(support); 
-    // Declare filteredCases as a reactive state
-    const [filteredCases, setFilteredCases] = useState<Component.Ticket[]>([]);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileURL, setFileURL] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [cases, setCases] = useState<SupportCase[]>([]);
 
-  // Recalculate filteredCases whenever support or searchTerm is updated
   useEffect(() => {
-    // Filter cases based on searchTerm
-    setFilteredCases(
-      support.filter((ticket) =>
-        ticket.ticketInfo?.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  }, [support, searchTerm]); 
+    // Fetch cases from API or load from local storage
+    const mockCases: SupportCase[] = [
+      {
+        _id: "1",
+        ticketInfo: { title: "Issue 1" },
+        status: "open",
+        createdAt: "2023-04-01T12:00:00Z",
+      },
+      {
+        _id: "2",
+        ticketInfo: { title: "Issue 2" },
+        status: "closed",
+        createdAt: "2023-04-02T14:30:00Z",
+      },
+    ];
+    setCases(mockCases);
+  }, []);
 
-  // Fetching the support cases from the server
-  const fetchSupport = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/user/support?id=${authState?.user?.id}`,
-      );
+  const filteredCases = cases.filter((c) =>
+    c.ticketInfo.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch support tickets");
-      }
-
-      const data = await response.json();
-      console.log("fetched support :",data)
-      setSupport(data?.tickets || []);
-    } catch (error) {
-      console.error("Error fetching support tickets:", error);
-    }
-  },[authState?.user?.id]);
-  useEffect(() => {
-    fetchSupport();
-  }, [fetchSupport]); 
-
-  // Function to handle new case creation
-  const createNewCase = async () => {
-    const formData = new FormData();
-
-    const ticketInfo = {
-      title: newCaseTitle,
-      description: newCaseDescription,
-    };
-    formData.append("ticketInfo", JSON.stringify(ticketInfo));
-    formData.append("userInfo", authState.user?.id);
-    formData.append("status", "open");
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      formData.append("image", file);
+      setFileName(file.name);
+      setFileURL(URL.createObjectURL(file));
     }
+  };
 
-    // Call createCase with the formData and handle the response to update the state
-     createCase(formData, (newTicket: Component.Ticket) => {
-      // Add the new ticket to support state immutably
-      setSupport((prev) => [...prev, newTicket]);
+  const handleRemoveFile = () => {
+    setFileName(null);
+    setFileURL(null);
+  };
 
-      fetchSupport()
-    });
-
-    // Clear the form after submitting
-    setNewCaseTitle("");
-    setNewCaseDescription("");
-    handleRemoveFile();
+  const createNewCase = () => {
+    setCreating(true);
+    // Simulate API call
+    setTimeout(() => {
+      const newCase: SupportCase = {
+        _id: Date.now().toString(),
+        ticketInfo: { title: newCaseTitle },
+        status: "open",
+        createdAt: new Date().toISOString(),
+      };
+      setCases([...cases, newCase]);
+      setNewCaseTitle("");
+      setNewCaseDescription("");
+      setFileName(null);
+      setFileURL(null);
+      setCreating(false);
+    }, 1000);
   };
 
   return (
-    <div className="min-h-screen">
-      <Card className="">
+    <div className="min-h-[60vh] w-full sm:w-[80vw] mx-auto">
+      <div className="">
         <CardHeader>
           <CardTitle className="text-2xl">Support Center</CardTitle>
           <CardDescription>
@@ -114,18 +112,18 @@ export default function SupportCenter() {
         <CardContent>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 mb-6">
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <i className="ri-search-2-line absolute left-2 top-2.5 h-4 w-4 text-muted-foreground"></i>
               <Input
                 placeholder="Search..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm here
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="w-full sm:w-auto">
-                  <PlusCircle className="mr-2 h-4 w-4" />
+                  <i className="ri-add-line mr-2 h-4 w-4"></i>
                   Create a new case
                 </Button>
               </DialogTrigger>
@@ -157,13 +155,7 @@ export default function SupportCenter() {
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="image">Image</Label>
-                    <Input
-                      id="image"
-                      type="file"
-                      onChange={handleFileChange}
-                      placeholder="Provide more details about your issue"
-                    />
-                    {/* Image Preview and Filename Display */}
+                    <Input id="image" type="file" onChange={handleFileChange} />
                     {fileURL && (
                       <div className="relative mt-2 w-40 h-40">
                         <img
@@ -195,12 +187,14 @@ export default function SupportCenter() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <DialogClose
-                    type="button"
-                    disabled={creating}
-                    onClick={createNewCase}
-                  >
-                    Submit Case
+                  <DialogClose asChild>
+                    <Button
+                      type="button"
+                      disabled={creating}
+                      onClick={createNewCase}
+                    >
+                      Submit Case
+                    </Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>
@@ -229,28 +223,29 @@ export default function SupportCenter() {
                       .filter((c) => status === "all" || c.status === status)
                       .reverse()
                       .map((supportCase) => {
-                        const date = new Date(String(supportCase?.createdAt));
+                        const date = new Date(supportCase.createdAt);
                         const formattedDate = date.toLocaleString();
 
                         return (
-                          <Card key={supportCase._id}>
-                            <CardHeader>
-                              <CardTitle>
+                          <div className="px-4" key={supportCase._id}>
+                            <div>
+                              <p>
                                 {supportCase.ticketInfo.title}
-                              </CardTitle>
-                              <CardDescription>
+                              </p>
+                              <p>
                                 Case ID: {supportCase._id}
-                              </CardDescription>
-                            </CardHeader>
-                            <CardFooter className="flex justify-between">
+                              </p>
+                            </div>
+                            <p className="flex justify-between">
                               <span className="text-sm text-muted-foreground">
                                 Status: {supportCase.status}
                               </span>
                               <span className="text-sm text-muted-foreground">
                                 {formattedDate}
                               </span>
-                            </CardFooter>
-                          </Card>
+                            </p>
+                            <hr className="mt-2"/>
+                          </div>
                         );
                       })}
                   </div>
@@ -259,7 +254,7 @@ export default function SupportCenter() {
             ))}
           </Tabs>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

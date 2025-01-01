@@ -153,6 +153,11 @@ const StorageFiles: React.FC = () => {
         setFiles((prevFiles) => [...prevFiles, newFile]);
         setUploadStatus("");
         setFile(null);
+
+        toast({
+          title: "File Uploaded...",
+          description: "Your file has been uploaded successfully.",
+        });
       }
     } catch (error: any) {
       setUploadStatus(`Upload failed: ${error.message}`);

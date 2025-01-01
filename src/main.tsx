@@ -18,7 +18,7 @@ import AccountUsageDashboard from "./pages/AccountUsageAndAnalytics";
 import IPFSStorage from "./pages/storage";
 import SupportCenter from "./pages/support-center";
 import SettingsPage from "./pages/settings";
-import DeployedProjects from "./components/ProjectCard";
+// import DeployedProjects from "./components/ProjectCard";
 import {
   Billing,
   CurrentBuild,

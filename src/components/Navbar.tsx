@@ -182,26 +182,8 @@ export default function Navbar() {
       </nav>
       <hr />
       {isDashboardRoute && (
-        <div className="sticky top-0 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6 justify-between">
+        <div className="sticky top-0 flex h-14 items-center gap-4 border-b-[.5px] bg-background px-4 md:px-10 justify-between">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-            <p
-              onClick={() => navigate("/dashboard")}
-              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
-            >
-              <i className="ri-box-3-line"></i> Overview
-            </p>
-            <p
-              onClick={() => navigate("/dashboard/boilerplates")}
-              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
-            >
-              <i className="ri-archive-2-line"></i>Boilerplates
-            </p>
-            <p
-              onClick={() => navigate("/dashboard/usage")}
-              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
-            >
-              <i className="ri-line-chart-line"></i>Usage
-            </p>
             <p
               onClick={() => navigate("/dashboard/storage")}
               className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
@@ -209,11 +191,29 @@ export default function Navbar() {
               <i className="ri-hard-drive-3-line"></i> Storage
             </p>
             <p
+              onClick={() => navigate("/dashboard")}
+              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
+            >
+              <i className="ri-box-3-line"></i> MingKit
+            </p>
+            {/* <p
+              onClick={() => navigate("/dashboard/boilerplates")}
+              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
+            >
+              <i className="ri-archive-2-line"></i>Boilerplates
+            </p> */}
+            {/* <p
+              onClick={() => navigate("/dashboard/usage")}
+              className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
+            >
+              <i className="ri-line-chart-line"></i>Usage
+            </p> */}
+            {/* <p
               onClick={() => navigate("/dashboard/support")}
               className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
             >
               <i className="ri-customer-service-line"></i> Support
-            </p>
+            </p> */}
             <p
               onClick={() => navigate("/dashboard/settings")}
               className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
@@ -236,7 +236,7 @@ export default function Navbar() {
                 >
                   <i className="ri-box-3-line"></i> Overview
                 </p>
-                <p
+                {/* <p
                   onClick={() => navigate("/dashboard/boilerplates")}
                   className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
                 >
@@ -247,14 +247,14 @@ export default function Navbar() {
                   className="cursor-pointer text-foreground transition-colors hover:text-foreground flex items-center gap-1"
                 >
                   <i className="ri-line-chart-line"></i>Usage
-                </p>
+                </p> */}
                 <p
                   onClick={() => navigate("/dashboard/storage")}
                   className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
                 >
                   <i className="ri-hard-drive-3-line"></i> Storage
                 </p>
-                <p
+                {/* <p
                   onClick={() => navigate("/dashboard/support")}
                   className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
                 >
@@ -265,11 +265,11 @@ export default function Navbar() {
                   className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
                 >
                   <i className="ri-settings-4-line"></i> Settings
-                </p>
+                </p> */}
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 justify-between">
+          {/* <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 justify-between">
             <form className="ml-auto flex-1 sm:flex-initial items-center gap-2 border-b-1 flex-row border rounded-md px-2 py-[3px] hidden md:flex">
               <i className="ri-search-line"></i>
               <input
@@ -284,7 +284,7 @@ export default function Navbar() {
             >
               ⚡ Add New
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </header>
