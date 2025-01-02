@@ -214,12 +214,12 @@ export default function Navbar() {
             >
               <i className="ri-customer-service-line"></i> Support
             </p> */}
-            <p
+            {/* <p
               onClick={() => navigate("/dashboard/settings")}
               className="cursor-pointer flex items-center gap-1 text-foreground transition-colors hover:text-foreground"
             >
               <i className="ri-settings-4-line"></i> Settings
-            </p>
+            </p> */}
           </nav>
           <Sheet>
             <SheetTrigger asChild>
