@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GearIcon, FileIcon } from "@radix-ui/react-icons";
 import TemplateCard from "@/components/TemplateCard";
 import { useNavigate } from "react-router-dom";
 import ConfigureProject from "@/components/ConfigureProject.component";
@@ -22,7 +21,7 @@ export default function EnhancedProjects() {
         <Card className="md:row-span-2 px-3">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <GearIcon className="mr-2" /> Configure Project
+              <i className="ri-settings-line mr-2"></i> Configure Project
             </CardTitle>
           </CardHeader>
 
@@ -32,7 +31,7 @@ export default function EnhancedProjects() {
         <Card className="md:self-start">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <FileIcon className="mr-2" /> Clone Template
+            <i className="ri-file-line mr-2"></i> Clone Template
             </CardTitle>
             <CardDescription>
               Jumpstart your app development process with our pre-built Ming
