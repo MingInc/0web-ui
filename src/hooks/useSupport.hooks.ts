@@ -1,4 +1,4 @@
-import { useToast } from "@/components/ui";
+// import { useToast } from "@/components/ui";
 import { useState } from "react";
 // import { useAuth } from "./useAuth.hooks";
 
@@ -11,7 +11,7 @@ export const useSupport = (support: Component.Ticket[]) => {
   // const [loading, _] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState<boolean>(false);
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   const createCase = async (
     formData: FormData,
@@ -39,17 +39,17 @@ export const useSupport = (support: Component.Ticket[]) => {
       // setSupport((prevSupport) => [...prevSupport, data]);
       onSuccess(data);
 
-      toast({
-        title: "Ticket Submitted Successfully",
-        description: "Please check your email for further details.",
-      });
+      // toast({
+      //   title: "Ticket Submitted Successfully",
+      //   description: "Please check your email for further details.",
+      // });
     } catch (error) {
       setError((error as Error).message);
-      toast({
-        title: "Error",
-        description: (error as Error).message || "Failed to submit the ticket",
-        variant: "destructive",
-      });
+      // toast({
+      //   title: "Error",
+      //   description: (error as Error).message || "Failed to submit the ticket",
+      //   variant: "destructive",
+      // });
     } finally {
       setCreating(false);
     }

@@ -6,28 +6,28 @@ import "remixicon/fonts/remixicon.css";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
 
-import { Toaster } from "@/components/ui/toaster";
+// import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // import { ProjectProvider } from "./contexts/ProjectContext/ProjectContext";
 import { RepoProvider } from "./contexts/RepoContext";
-import NewProject from "./components/NewProject.component";
-import TemplatesPage from "./pages/Boilerplates";
-import AccountUsageDashboard from "./pages/AccountUsageAndAnalytics";
+// import NewProject from "./components/NewProject.component";
+// import TemplatesPage from "./pages/Boilerplates";
+// import AccountUsageDashboard from "./pages/AccountUsageAndAnalytics";
 import IPFSStorage from "./pages/storage";
-import SupportCenter from "./pages/support-center";
-import SettingsPage from "./pages/settings";
+// import SupportCenter from "./pages/support-center";
+// import SettingsPage from "./pages/settings";
 // import DeployedProjects from "./components/ProjectCard";
 import {
-  Billing,
-  CurrentBuild,
+  // Billing,
+  // CurrentBuild,
   Dashboard,
   Home,
   Login,
-  ProjectPreview,
+  // ProjectPreview,
 } from "./pages";
-import { Pricing } from "./pages/Pricing";
+// import { Pricing } from "./pages/Pricing";
 import Projects from "./pages/DeployProject";
 import NotFound from "./pages/NotFound.pages";
 import { GithubCallback } from "./pages/GithubCallback.pages";
@@ -56,22 +56,22 @@ const router = createBrowserRouter([
           //  </ProtectedRoute>
         ),
       },
-      {
-        path: "/new",
-        element: <NewProject />,
-      },
-      {
-        path: "/build",
-        element: <CurrentBuild />,
-      },
-      {
-        path: "/pricing",
-        element: <Pricing />,
-      },
-      {
-        path: "/preview",
-        element: <ProjectPreview />,
-      },
+      // {
+      //   path: "/new",
+      //   element: <NewProject />,
+      // },
+      // {
+      //   path: "/build",
+      //   element: <CurrentBuild />,
+      // },
+      // {
+      //   path: "/pricing",
+      //   element: <Pricing />,
+      // },
+      // {
+      //   path: "/preview",
+      //   element: <ProjectPreview />,
+      // },
       {
         path: "/dashboard",
         element: (
@@ -82,32 +82,32 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <GenKit />,
-          },
-          {
-            path: "boilerplates",
-            element: <TemplatesPage />,
-          },
-          {
-            path: "usage",
-            element: <AccountUsageDashboard />,
-          },
-          {
-            path: "storage",
             element: <IPFSStorage />,
           },
+          // {
+          //   path: "boilerplates",
+          //   element: <TemplatesPage />,
+          // },
+          // {
+          //   path: "usage",
+          //   element: <AccountUsageDashboard />,
+          // },
           {
-            path: "support",
-            element: <SupportCenter />,
+            path: "genkit",
+            element: <GenKit />,
           },
-          {
-            path: "settings",
-            element: <SettingsPage />,
-          },
-          {
-            path: "billing",
-            element: <Billing />,
-          },
+          // {
+          //   path: "support",
+          //   element: <SupportCenter />,
+          // },
+          // {
+          //   path: "settings",
+          //   element: <SettingsPage />,
+          // },
+          // {
+          //   path: "billing",
+          //   element: <Billing />,
+          // },
         ],
       },
     ],
@@ -128,8 +128,8 @@ createRoot(document.getElementById("root")!).render(
       <RepoProvider>
         {/* <ProjectProvider> */}
           <RouterProvider router={router} />
-          <Toaster />
-          <Analytics />
+          {/* <Toaster /> */}
+        <Analytics />
           <SpeedInsights />
         {/* </ProjectProvider> */}
       </RepoProvider>

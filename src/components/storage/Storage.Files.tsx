@@ -34,7 +34,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks";
-import { toast } from "../ui";
+// import { toast } from "../ui";
 import moment from "moment";
 import {
   DropdownMenu,
@@ -128,10 +128,10 @@ const StorageFiles: React.FC = () => {
 
     try {
       setIsAddFileDialogOpen(false);
-      toast({
-        title: "Uploading file...",
-        description: "Please wait while we upload your file.",
-      });
+      // toast({
+      //   title: "Uploading file...",
+      //   description: "Please wait while we upload your file.",
+      // });
 
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/store`, {
         method: "POST",
@@ -154,10 +154,10 @@ const StorageFiles: React.FC = () => {
         setUploadStatus("");
         setFile(null);
 
-        toast({
-          title: "File Uploaded...",
-          description: "Your file has been uploaded successfully.",
-        });
+        // toast({
+        //   title: "File Uploaded...",
+        //   description: "Your file has been uploaded successfully.",
+        // });
       }
     } catch (error: any) {
       setUploadStatus(`Upload failed: ${error.message}`);

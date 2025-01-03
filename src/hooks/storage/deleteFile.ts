@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui";
+// import { toast } from "@/components/ui";
 
 export const deleteFile = async (fileId: number) => {
     try {
@@ -13,21 +13,21 @@ export const deleteFile = async (fileId: number) => {
       );
 
       if (response.ok) {
-        toast({
-          title: "File Deleted",
-          description: "The file has been successfully deleted.",
-        });
+        // toast({
+        //   title: "File Deleted",
+        //   description: "The file has been successfully deleted.",
+        // });
       } else {
-        toast({
-          title: "Deleting Failed",
-          description: "Failed to delete the file.",
-        });
+        // toast({
+        //   title: "Deleting Failed",
+        //   description: "Failed to delete the file.",
+        // });
       }
     } catch (error) {
       console.error("Error deleting file from IPFS:", error);
-      toast({
-        title: "Error",
-        description: "An error occurred while pinning the file to IPFS.",
-      });
+      // toast({
+      //   title: "Error",
+      //   description: "An error occurred while pinning the file to IPFS.",
+      // });
     }
   };

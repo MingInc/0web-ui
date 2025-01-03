@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui";
+// import { toast } from "@/components/ui";
 
 export const pinFileToIPFS = async (fileId: number) => {
     try {
@@ -13,21 +13,21 @@ export const pinFileToIPFS = async (fileId: number) => {
       );
 
       if (response.ok) {
-        toast({
-          title: "File Pinned",
-          description: "The file has been successfully pinned to IPFS.",
-        });
+        // toast({
+        //   title: "File Pinned",
+        //   description: "The file has been successfully pinned to IPFS.",
+        // });
       } else {
-        toast({
-          title: "Pinning Failed",
-          description: "Failed to pin the file to IPFS.",
-        });
+        // toast({
+        //   title: "Pinning Failed",
+        //   description: "Failed to pin the file to IPFS.",
+        // });
       }
     } catch (error) {
       console.error("Error pinning file to IPFS:", error);
-      toast({
-        title: "Error",
-        description: "An error occurred while pinning the file to IPFS.",
-      });
+      // toast({
+      //   title: "Error",
+      //   description: "An error occurred while pinning the file to IPFS.",
+      // });
     }
   };
